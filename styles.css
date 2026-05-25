@@ -298,26 +298,13 @@ body {
   border-radius: 2px;
 }
 
-/* --- Projects Grid --- */
+/* --- Projects Flex Grid (Centers Orphan Cards) --- */
 .projects-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
   width: 100%;
-}
-
-@media (min-width: 640px) {
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .projects-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-  }
 }
 
 /* --- Project Card (9:16 Aspect Ratio) --- */
@@ -325,6 +312,7 @@ body {
   position: relative;
   overflow: hidden;
   width: 100%;
+  max-width: 320px;
   aspect-ratio: 9 / 16;
   border-radius: 16px;
   cursor: pointer;
