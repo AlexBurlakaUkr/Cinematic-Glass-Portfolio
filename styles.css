@@ -1,0 +1,255 @@
+/* Cinematic Glass Portfolio Styling */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+/* --- Reset & Variables --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --bg-dark: #0a0b10;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --accent-glow-1: rgba(99, 102, 241, 0.15); /* Soft Indigo */
+  --accent-glow-2: rgba(20, 184, 166, 0.12); /* Soft Teal */
+  --accent-glow-3: rgba(139, 92, 246, 0.1);  /* Soft Violet */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Animated Ambient Cinematic Background --- */
+.bg-ambient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #11131e 0%, #0a0b10 100%);
+}
+
+.bg-glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.8;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--accent-glow-1);
+  top: -10%;
+  left: 10%;
+  animation: float-blob-1 25s infinite alternate ease-in-out;
+}
+
+.blob-2 {
+  width: 500px;
+  height: 500px;
+  background: var(--accent-glow-2);
+  bottom: 10%;
+  right: 15%;
+  animation: float-blob-2 20s infinite alternate ease-in-out;
+}
+
+.blob-3 {
+  width: 450px;
+  height: 450px;
+  background: var(--accent-glow-3);
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: float-blob-3 30s infinite alternate ease-in-out;
+}
+
+@keyframes float-blob-1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(80px, 60px) scale(1.1);
+  }
+}
+
+@keyframes float-blob-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-90px, -50px) scale(1.15);
+  }
+}
+
+@keyframes float-blob-3 {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.95);
+  }
+  100% {
+    transform: translate(-40%, -60%) rotate(180deg) scale(1.05);
+  }
+}
+
+/* --- Reusable Glassmorphism Class --- */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  transition: var(--transition-smooth);
+}
+
+/* --- Hero Section --- */
+#hero {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 720px;
+  padding: 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Subtle border animation/glow update to make it look ultra-premium */
+.hero-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.hero-tag {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 1.2rem;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.02);
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.25rem;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Premium Explore Button --- */
+.btn-explore {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.9rem 2.2rem;
+  border-radius: 100px;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-explore:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.08);
+}
+
+.btn-explore:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-explore svg {
+  transition: var(--transition-smooth);
+}
+
+.btn-explore:hover svg {
+  transform: translateY(3px);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .hero-container {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
