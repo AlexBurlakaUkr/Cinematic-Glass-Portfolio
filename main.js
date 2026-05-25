@@ -4,11 +4,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Portfolio Data
   initializeHeroSection();
   initializeProjectsSection();
+  initializeSkillsSection();
 
   // 2. Add Premium Interactive Effects
   initParallaxEffect();
   initSmoothScroll();
 });
+
+/**
+ * Dynamically builds skill badges from the config portfolioData.skills array
+ */
+function initializeSkillsSection() {
+  if (typeof portfolioData === 'undefined' || !portfolioData.skills) {
+    console.error('Skills data is missing from portfolio configuration!');
+    return;
+  }
+
+  const containerEl = document.getElementById('skills-container');
+  if (!containerEl) return;
+
+  containerEl.innerHTML = ''; // Clear initial placeholder
+
+  portfolioData.skills.forEach((skill) => {
+    const badge = document.createElement('span');
+    badge.className = 'skill-badge';
+    badge.textContent = skill;
+    containerEl.appendChild(badge);
+  });
+}
+
 
 /**
  * Dynamically builds project cards from the config portfolioData.games array
