@@ -3,10 +3,98 @@
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Portfolio Data
   initializeHeroSection();
+  initializeProjectsSection();
 
   // 2. Add Premium Interactive Effects
   initParallaxEffect();
+  initSmoothScroll();
 });
+
+/**
+ * Dynamically builds project cards from the config portfolioData.games array
+ */
+function initializeProjectsSection() {
+  if (typeof portfolioData === 'undefined' || !portfolioData.games) {
+    console.error('Games data is missing from portfolio configuration!');
+    return;
+  }
+
+  const gridEl = document.getElementById('projects-grid');
+  if (!gridEl) return;
+
+  gridEl.innerHTML = ''; // Clear initial placeholder
+
+  portfolioData.games.forEach((game) => {
+    // Create card container
+    const card = document.createElement('div');
+    card.className = 'project-card glass-panel';
+
+    // Fallback backdrop (shown while image loads or if loading fails)
+    const fallback = document.createElement('div');
+    fallback.className = 'card-fallback';
+    fallback.innerHTML = `
+      <div class="fallback-icon">🎮</div>
+      <div class="fallback-title">${game.title}</div>
+    `;
+    card.appendChild(fallback);
+
+    // Main Cover Image
+    const img = document.createElement('img');
+    img.src = game.imagePath;
+    img.alt = `${game.title} Cover`;
+    img.onload = () => img.classList.add('loaded');
+    img.onerror = () => {
+      img.style.display = 'none'; // Cleanly hide broken image to display the styled fallback
+    };
+    card.appendChild(img);
+
+    // Text & Button Overlay Wrapper
+    const content = document.createElement('div');
+    content.className = 'project-card-content';
+
+    const title = document.createElement('h3');
+    title.className = 'project-card-title';
+    title.textContent = game.title;
+    content.appendChild(title);
+
+    const desc = document.createElement('p');
+    desc.className = 'project-card-description';
+    desc.textContent = game.description;
+    content.appendChild(desc);
+
+    const btn = document.createElement('a');
+    btn.className = 'btn-play-game';
+    btn.href = game.playLink;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.innerHTML = `
+      <span>Play Game</span>
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `;
+    content.appendChild(btn);
+
+    card.appendChild(content);
+    gridEl.appendChild(card);
+  });
+}
+
+/**
+ * Wires up smooth scroll behavior for header and navigation buttons
+ */
+function initSmoothScroll() {
+  const exploreBtn = document.getElementById('btn-explore-projects');
+  if (exploreBtn) {
+    exploreBtn.addEventListener('click', () => {
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+}
+
 
 /**
  * Injects Developer details dynamically from config.js (portfolioData)
