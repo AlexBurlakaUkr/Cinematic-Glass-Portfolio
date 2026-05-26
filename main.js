@@ -89,10 +89,20 @@ function initializeSkillsSection() {
   containerEl.innerHTML = ''; // Clear initial placeholder
 
   portfolioData.skills.forEach((skill) => {
+    // 1. Create a parent wrapper that handles floating keyframes asynchronously
+    const wrapper = document.createElement('div');
+    wrapper.className = 'skill-badge-wrapper';
+    
+    // Stagger float start times using a random delay between 0 and 2.5 seconds
+    wrapper.style.animationDelay = `${Math.random() * 2.5}s`;
+
+    // 2. Create the inner badge node that holds glass layout & hover scale mechanics
     const badge = document.createElement('span');
     badge.className = 'skill-badge';
     badge.textContent = skill;
-    containerEl.appendChild(badge);
+
+    wrapper.appendChild(badge);
+    containerEl.appendChild(wrapper);
   });
 }
 

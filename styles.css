@@ -466,13 +466,21 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.2rem;
   max-width: 900px;
   margin: 0 auto;
   width: 100%;
 }
 
+/* Levitating wrapper for organic cloud effect */
+.skill-badge-wrapper {
+  display: inline-block;
+  animation: floatGlass 5s ease-in-out infinite;
+  will-change: transform;
+}
+
 .skill-badge {
+  display: inline-block;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -488,13 +496,24 @@ body {
   cursor: default;
   user-select: none;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  will-change: transform;
 }
 
 .skill-badge:hover {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-3px);
+  transform: scale(1.06) translateY(-2px);
   box-shadow: 0 8px 24px rgba(255, 255, 255, 0.08);
+}
+
+/* --- Floating Keyframes --- */
+@keyframes floatGlass {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 
