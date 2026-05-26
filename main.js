@@ -9,7 +9,53 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Add Premium Interactive Effects
   initParallaxEffect();
   initSmoothScroll();
+  initCardTiltEffect();
 });
+
+/**
+ * Creates an interactive 3D tilt effect on the dynamically rendered game cards
+ */
+function initCardTiltEffect() {
+  const cards = document.querySelectorAll('.project-card');
+
+  cards.forEach((card) => {
+    // Reset transition configuration when mouse re-enters
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'none';
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left; // cursor X relative to card bounds
+      const y = e.clientY - rect.top;  // cursor Y relative to card bounds
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Delta off-center
+      const deltaX = x - centerX;
+      const deltaY = y - centerY;
+
+      // Normalized coordinates (-1 to 1)
+      const percentX = deltaX / centerX;
+      const percentY = deltaY / centerY;
+
+      // Tilt intensity mapping (range of -10 to +10 degrees)
+      const maxTilt = 10;
+      const rotateX = -percentY * maxTilt;
+      const rotateY = percentX * maxTilt;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      // Apply transition for smooth return animation
+      card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+  });
+}
+
 
 /**
  * Dynamically builds skill badges from the config portfolioData.skills array
