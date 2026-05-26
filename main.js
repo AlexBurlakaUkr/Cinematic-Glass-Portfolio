@@ -19,9 +19,20 @@ function initCardTiltEffect() {
   const cards = document.querySelectorAll('.project-card');
 
   cards.forEach((card) => {
-    // Reset transition configuration when mouse re-enters
+    // Smoothly transition into the initial tilt state on entry
     card.addEventListener('mouseenter', () => {
-      card.style.transition = 'none';
+      card.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+      
+      // Clear any pending transition-clear timeouts
+      if (card.dataset.tiltTimeout) {
+        clearTimeout(Number(card.dataset.tiltTimeout));
+      }
+      
+      // After the entry transition completes, remove it to enable lag-free real-time tracking
+      card.dataset.tiltTimeout = setTimeout(() => {
+        card.style.transition = 'none';
+        card.dataset.tiltTimeout = '';
+      }, 300);
     });
 
     card.addEventListener('mousemove', (e) => {
@@ -49,7 +60,13 @@ function initCardTiltEffect() {
     });
 
     card.addEventListener('mouseleave', () => {
-      // Apply transition for smooth return animation
+      // Clear the enter timeout if it hasn't fired yet
+      if (card.dataset.tiltTimeout) {
+        clearTimeout(Number(card.dataset.tiltTimeout));
+        card.dataset.tiltTimeout = '';
+      }
+
+      // Apply transition for smooth return animation back to center
       card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
     });
